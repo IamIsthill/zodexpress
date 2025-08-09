@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,11 @@
     "zod": "^4.0.15"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3"
+    "@jest-mock/express": "^3.0.0",
+    "@jest/globals": "^30.0.5",
+    "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
+    "jest": "^30.0.5",
+    "ts-jest": "^29.4.1"
   }
 }
