@@ -5,8 +5,6 @@
 
 zodware is a lightweight, zero-dependency Express middleware for validating requests using Zod schemas. Supports body, params, and query with automatic 422 responses on validation errors.
 
----
-
 ## Features
 
 - Validates req.body, req.params, and req.query
@@ -30,6 +28,8 @@ npm install zodware zod
 | body   | `ZodSchema` | Schema for validating `req.body`   |
 | params | `ZodSchema` | Schema for validating `req.params` |
 | query  | `ZodSchema` | Schema for validating `req.query`  |
+
+- ZodSchema means any Zod object schema (z.ZodObject or compatible).
 
 ## Usage
 
@@ -55,10 +55,57 @@ app.post(
     query: z.object({ ref: z.string().optional() }),
   }),
   (req, res) => {
+    // req.body, req.params, req.query are typed correctly here
     res.json({ message: "Validated successfully", data: req.body });
   }
 );
 ```
+
+## Typescript Support
+
+`zodware` provides utility types to help strongly type your Express request handlers using your Zod schemas. This is especially useful when the controller is located in a separate file
+
+```typescript
+import type { TypedBody, TypedParams, TypedQuery } from "zodware";
+import { z } from "zod";
+
+const userSchema = z.object({
+  name: z.string(),
+  age: z.number().int().positive(),
+});
+
+const paramsSchema = z.object({ id: z.string().uuid() });
+
+const querySchema = z.object({ ref: z.string().optional() });
+
+// Usage in Express handler:
+app.post(
+  "/users/:id",
+  validateRequest({
+    body: userSchema,
+    params: paramsSchema,
+    query: querySchema,
+  }),
+  (req, res) => {
+    // Now req.body, req.params, and req.query are properly typed!
+    res.json({ message: "Validated successfully", data: req.body });
+  }
+);
+```
+
+### Exported Types
+
+| Type             | Description                                                     |
+| ---------------- | --------------------------------------------------------------- |
+| `TypedBody<T>`   | Typed Express Request with validated `req.body` of schema `T`   |
+| `TypedParams<T>` | Typed Express Request with validated `req.params` of schema `T` |
+| `TypedQuery<T>`  | Typed Express Request with validated `req.query` of schema `T`  |
+
+## Error Handling
+
+On validation failure, zodware automatically responds with HTTP status 422 Unprocessable Entity and a JSON array of Zod validation issues.
+
+Any other unexpected errors are forwarded to the next Express error handler middleware.
 
 ## Testing
 
