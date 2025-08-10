@@ -1,9 +1,9 @@
-# zodexpress
+# zodware
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Express + Zod Middleware](https://img.shields.io/badge/Express%20%2B%20Zod-Middleware-3068B7?logo=express&logoColor=white)
 
-zodexpress is a lightweight, zero-dependency Express middleware for validating requests using Zod schemas. Supports body, params, and query with automatic 422 responses on validation errors.
+zodware is a lightweight, zero-dependency Express middleware for validating requests using Zod schemas. Supports body, params, and query with automatic 422 responses on validation errors.
 
 ---
 
@@ -18,7 +18,7 @@ zodexpress is a lightweight, zero-dependency Express middleware for validating r
 
 ```bash
 # Install middleware and peer dependency
-npm install zodexpress zod
+npm installzodware zod
 ```
 
 ## API
@@ -36,7 +36,7 @@ npm install zodexpress zod
 ```typescript
 import express from "express";
 import { z } from "zod";
-import validateRequest from "zodexpress";
+import validateRequest from "zodware";
 
 const app = express();
 app.use(express.json());
