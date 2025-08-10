@@ -5,7 +5,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "build": "tsc",
+    "push": "git push && git push --tags",
+    "patch": "npm version patch && npm run push && npm publish",
+    "minor": "npm version minor && npm run push && npm publish",
+    "major": "npm version major && npm run push && npm publish"
   },
   "files": [
     "dist"
