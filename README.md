@@ -18,7 +18,7 @@ zodware is a lightweight, zero-dependency Express middleware for validating requ
 
 ```bash
 # Install middleware and peer dependency
-npm installzodware zod
+npm install zodware zod
 ```
 
 ## API
