@@ -1,20 +1,26 @@
 import { getMockReq, getMockRes } from "@jest-mock/express";
 import { z } from "zod";
-import validateRequest from ".";
+import validateRequest, { InferRequest } from ".";
 
 describe("validateRequest middleware", () => {
-  const bodySchema = z.object({
-    name: z.string(),
-    age: z.number().int().positive(),
-  });
+  const bodySchema = z
+    .object({
+      name: z.string(),
+      age: z.number().int().positive(),
+    })
+    .strict();
 
-  const paramsSchema = z.object({
-    id: z.string().uuid(),
-  });
+  const paramsSchema = z
+    .object({
+      id: z.uuid(),
+    })
+    .strict();
 
-  const querySchema = z.object({
-    search: z.string().optional(),
-  });
+  const querySchema = z
+    .object({
+      search: z.string().optional(),
+    })
+    .strict();
   const { res, next, clearMockRes } = getMockRes();
 
   beforeEach(() => {
@@ -26,7 +32,11 @@ describe("validateRequest middleware", () => {
       body: { name: "Alice", age: 30 },
       params: { id: "123e4567-e89b-12d3-a456-426614174000" },
       query: { search: "test" },
-    });
+    } as any) as InferRequest<
+      typeof bodySchema,
+      typeof paramsSchema,
+      typeof querySchema
+    >;
 
     const middleware = validateRequest({
       body: bodySchema,

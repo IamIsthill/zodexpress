@@ -31,7 +31,7 @@ export type TypedQuery<T extends ZodType<any>> = Request<
   z.infer<T>
 >;
 
-type InferRequest<
+export type InferRequest<
   TBody extends ZodType<any>,
   TParams extends ZodType<any>,
   TQuery extends ZodType<any>
